@@ -1,0 +1,1094 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CBS Phase 2 — Key Art Automation · SOW & Schedule</title>
+  <style>
+    :root{
+      --ink:#0f172a; --ink-2:#334155; --ink-3:#64748b; --line:#e5e7eb; --paper:#ffffff; --bg:#f7f8fa;
+      --coral:#f26b6b; --coral-2:#d94a4a; --sky:#38bdf8; --sky-2:#0ea5e9;
+      --rose:#fbcfe8; --rose-2:#f472b6; /* rosadito */
+      --phase-21: var(--coral); --phase-22: var(--sky); --phase-23:#94a3b8;
+    }
+    *{box-sizing:border-box} html,body{margin:0}
+    body{font-family:Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial,"Apple Color Emoji","Segoe UI Emoji"; line-height:1.5; color:var(--ink-2); background:var(--bg)}
+    .wrap{max-width:1040px; margin:auto; padding:32px 16px}
+    .mast{background:var(--paper); border:1px solid var(--line); padding:20px 24px; display:grid; gap:8px}
+    .header-content{display:flex; align-items:flex-end; gap:16px; flex-wrap:wrap}
+    .logo{height:60px; width:auto; flex-shrink:0; opacity:0.9; object-fit:contain; margin-bottom:3px}
+    .logo:hover{opacity:1}
+    .header-text{flex:1; min-width:200px; margin-top:10px}
+    .mast h1{margin:0; color:var(--ink); font-size:20px; letter-spacing:-.2px}
+    .mast p{margin:0; color:var(--ink-3); font-size:14px}
+    .badges{display:flex; gap:8px; flex-wrap:wrap; margin-top:6px}
+    .badge{font-size:12px; border:1px solid var(--line); color:var(--ink-2); padding:4px 8px; background:#fafafa}
+    .grid{display:grid; grid-template-columns:repeat(12,1fr); gap:12px; margin-top:12px}
+    .card{grid-column:span 4; background:var(--paper); border:1px solid var(--line); padding:16px}
+    .card h3{margin:0 0 8px; font-size:12px; letter-spacing:.12em; text-transform:uppercase; color:var(--ink); font-weight:700}
+    .card p,.card li{font-size:14px; color:var(--ink-2)} .card ul{margin:0; padding-left:18px}
+    .controls{margin:12px 0; display:flex; gap:8px; flex-wrap:wrap}
+    .chip{background:var(--paper); border:1px solid var(--line); padding:6px 10px; font-size:12px; cursor:pointer}
+    .chip[aria-pressed="true"]{background:var(--ink); color:#fff; border-color:var(--ink)}
+    .chip:focus-visible{outline:2px solid var(--sky-2); outline-offset:2px}
+    .spacer{flex:1}
+    .btn{background:var(--ink); color:#fff; border:1px solid var(--ink); padding:8px 12px; font-size:12px; cursor:pointer}
+    .btn:hover{background:#1f2937}
+    .phase{background:var(--paper); border:1px solid var(--line); margin-bottom:0; display:none}
+    .phase.visible{display:block; margin-bottom:10px; animation:slideDown .3s ease-out}
+    @keyframes slideDown{from{opacity:0; transform:translateY(-10px)} to{opacity:1; transform:translateY(0)}}
+    .ph-hd{display:flex; align-items:flex-start; gap:12px; padding:12px 14px; border-bottom:1px solid var(--line); background:#fbfbfc}
+    .ph-tag{font-size:12px; font-weight:700; color:#fff; padding:4px 8px}
+    .ph-21{background:var(--phase-21)} .ph-22{background:var(--phase-22)} .ph-23{background:var(--phase-23); color:#111827}
+    .ph-title{margin:0; color:var(--ink); font-size:14px; font-weight:700}
+    .ph-dates{font-size:12px; color:var(--ink-3)}
+    .empty-state{background:var(--paper); border:1px dashed var(--line); padding:40px 24px; text-align:center; color:var(--ink-3); margin-bottom:12px}
+    .empty-state h3{margin:0 0 8px; font-size:14px; color:var(--ink-2); font-weight:600}
+    .empty-state p{margin:0; font-size:13px} .empty-state.hidden{display:none}
+    .close-btn{background:transparent; border:1px solid var(--line); color:var(--ink-2); padding:6px 12px; font-size:11px; cursor:pointer; margin-top:12px; text-transform:uppercase; letter-spacing:.5px; font-weight:600}
+    .close-btn:hover{background:var(--bg); border-color:var(--ink-3)}
+    .tasks-section{padding:12px 16px; border-bottom:1px solid var(--line)}
+    .tasks-section h3{font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-3); margin:0 0 8px}
+    .task-list{display:grid; gap:2px}
+    .task-item{display:flex; align-items:center; gap:8px; padding:6px 8px; background:#fafbfc; border-left:3px solid var(--line); font-size:13px}
+    .task-item:hover{background:#f0f1f3}
+    .task-num{background:var(--ink); color:#fff; width:20px; height:20px; border-radius:50%; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0}
+    .task-content{flex:1}
+    .task-title{font-size:13px; font-weight:600; color:var(--ink)}
+    .task-meta{display:none}
+    .category-header{margin:10px 0 4px;padding:6px 0;border-bottom:1px solid var(--line);display:flex;align-items:center;gap:6px}
+    .category-header:first-child{margin-top:0}
+    .category-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+    .category-title{font-size:12px;font-weight:700;color:var(--ink)}
+    .events-section{padding:12px 16px}
+    .events-section h3{font-size:12px; text-transform:uppercase; letter-spacing:.5px; color:var(--ink-3); margin:0 0 10px}
+    .events-list{display:grid; gap:6px}
+    .event-item{display:flex; align-items:center; gap:10px; padding:8px 10px; background:#fafbfc; border-left:3px solid var(--line); font-size:13px}
+    .event-item:hover{background:#f5f6f7; border-left-color:var(--ink)}
+     /* Check-in + UX Review con color rosita */
+     .event-item[data-combo="both"]{border-left-color:var(--line); background:#fff}
+     .event-item[data-combo="both"] .event-badge{background:var(--rose-2); color:#fff; border-color:var(--rose-2)}
+    .event-date{font-weight:700; color:var(--ink); min-width:90px; font-size:12px}
+    .event-title{flex:1; color:var(--ink-2)}
+    .event-badge{font-size:10px; text-transform:uppercase; letter-spacing:.3px; padding:2px 6px; border:1px solid var(--line); background:#fff; color:var(--ink-3)}
+    /* badge de Deploy celeste en los detalles */
+    .event-item[data-combo="deploy"] .event-badge{background:var(--sky-2); color:#fff; border-color:var(--sky-2)}
+    /* badge de Final Deploy verde en los detalles */
+    .event-item[data-combo="final-deploy"] .event-badge{background:#10b981; color:#fff; border-color:#10b981}
+
+    .band{background:var(--paper); border:1px solid var(--line); padding:12px; margin:12px 0}
+    .band h4{margin:0 0 8px; font-size:12px; color:var(--ink); letter-spacing:.12em; text-transform:uppercase}
+    .bar-row{position:relative; height:32px; border:1px dashed var(--line); margin:8px 0; background:#fff}
+    .bar{position:absolute; top:3px; bottom:3px; background:rgba(11,104,255,.12); border:1px solid #0b4fd1; min-width:150px}
+    .bar-21{background:rgba(242,107,107,.18); border-color:var(--coral-2)}
+    .bar-22{background:rgba(56,189,248,.20); border-color:var(--sky-2)}
+    .bar-23{background:rgba(148,163,184,.22); border-color:#64748b}
+    .bar b{position:absolute; top:50%; transform:translateY(-50%); left:8px; font-weight:600; color:var(--ink); font-size:11px; text-shadow:0 1px 0 #ffffff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; padding-right:8px}
+    .cal{background:var(--paper); border:1px solid var(--line); padding:12px; margin:12px 0}
+    .cal h4{margin:0 0 12px; font-size:12px; color:var(--ink); letter-spacing:.12em; text-transform:uppercase}
+    .months{display:grid; grid-template-columns:repeat(auto-fit,minmax(260px,1fr)); gap:12px}
+    .month{border:1px solid var(--line); background:#fff}
+    .month-hd{display:flex; justify-content:space-between; align-items:center; padding:8px 10px; border-bottom:1px solid var(--line); font-weight:700; color:var(--ink)}
+    .month-grid{display:grid; grid-template-columns:repeat(7,1fr); gap:4px; padding:8px}
+    .dow{font-size:11px; color:var(--ink-3); text-align:center; padding:4px 0}
+    .day{height:32px; border:1px solid var(--line); font-size:12px; color:var(--ink-2); position:relative; background:#fff; display:flex; align-items:flex-start; justify-content:flex-start; padding:4px}
+    .day.muted{background:#fafafa; color:#94a3b8}
+    .day .num{font-weight:600}
+    .day.friday{outline:1px dashed rgba(100,116,139,.6)}
+    .p21{background:rgba(242,107,107,.12)} .p22{background:rgba(56,189,248,.14)} .p23{background:rgba(148,163,184,.35)}
+    .p22-overlap{background:linear-gradient(to bottom, rgba(242,107,107,.12) 0%, rgba(242,107,107,.12) 50%, rgba(56,189,248,.14) 50%, rgba(56,189,248,.14) 100%)}
+    .day.p21:hover,.day.p22:hover,.day.p23:hover{cursor:pointer; transform:scale(1.05); z-index:10}
+    .day.p22-overlap:hover{cursor:pointer; transform:scale(1.05); z-index:10}
+    .day.final-deploy{background:linear-gradient(135deg, #10b981 0%, #059669 100%)!important; color:#fff!important; font-weight:700; border:2px solid #059669!important}
+    .day.final-deploy .num{color:#fff}
+    .flag{position:absolute; bottom:4px; left:4px; right:4px; height:4px; background:var(--ink)}
+    .flag.deploy{background:var(--sky-2)} .flag.delivery{background:var(--ink)} .flag.checkin{background:var(--ink-3)}
+    .flag.final-deploy{background:#10b981; height:6px}
+    
+    /* Tooltip/Popup */
+    .tooltip{position:fixed; background:var(--ink); color:#fff; padding:12px 16px; border-radius:6px; font-size:13px; z-index:1000; pointer-events:none; opacity:0; transition:opacity .2s ease; box-shadow:0 4px 12px rgba(0,0,0,.3); max-width:300px}
+    .tooltip.visible{opacity:1}
+    .tooltip h4{margin:0 0 6px; font-size:14px; font-weight:700; border-bottom:1px solid rgba(255,255,255,.2); padding-bottom:6px}
+    .tooltip ul{margin:4px 0 0; padding-left:18px; line-height:1.6}
+    .tooltip li{margin:3px 0}
+    @media (max-width:900px){ 
+      .card{grid-column:span 12} 
+      .event-item{flex-direction:column; align-items:flex-start; gap:4px} 
+      .event-date{min-width:auto} 
+    }
+    
+    @media (max-width:768px){
+      .header-content{flex-direction:column; text-align:center; gap:12px; align-items:center}
+      .logo{height:50px; width:auto; margin:0 auto}
+      .header-text{min-width:auto}
+      .mast h1{font-size:20px; margin:0}
+      .badges{flex-wrap:wrap; justify-content:center; gap:6px}
+      .badge{font-size:11px; padding:4px 8px}
+      
+      .info{grid-template-columns:1fr; gap:12px; padding:16px}
+      .card{padding:12px}
+      .card h3{font-size:14px; margin:0 0 8px}
+      .card ul{font-size:13px; line-height:1.4}
+      
+      .controls{flex-direction:column; gap:8px; padding:12px}
+      .filter-group{flex-direction:column; gap:6px}
+      .filter-chip{padding:6px 12px; font-size:12px}
+      
+      .band{padding:8px; margin:8px 0}
+      .band h4{font-size:11px; margin:0 0 6px}
+      .bar-row{height:28px; margin:6px 0}
+      .bar{min-width:100px; font-size:10px; padding:2px 4px}
+      .bar b{font-size:10px}
+      
+      .months{flex-direction:column; gap:16px}
+      .month{min-width:100%}
+      .month h3{font-size:16px; padding:8px 12px}
+      .calendar{grid-template-columns:repeat(7,1fr); gap:1px}
+      .day{height:28px; font-size:11px; padding:2px}
+      .day .num{font-size:11px}
+      .flag{height:3px; bottom:2px}
+      
+      .phase{padding:12px; margin:8px 0}
+      .ph-hd{padding:12px; flex-direction:column; gap:8px; text-align:center}
+      .ph-title{font-size:18px}
+      .ph-dates{font-size:12px}
+      
+      .task-item{padding:8px; gap:8px}
+      .task-num{width:20px; height:20px; font-size:11px}
+      .task-title{font-size:13px}
+      
+      .tooltip{max-width:280px; padding:8px 12px; font-size:12px}
+      .tooltip h4{font-size:13px; margin:0 0 4px}
+    }
+    
+    @media (max-width:480px){
+      .logo{height:40px; width:auto}
+      .mast h1{font-size:18px}
+      .badge{font-size:10px; padding:3px 6px}
+      
+      .card{padding:8px}
+      .card h3{font-size:13px}
+      .card ul{font-size:12px}
+      
+      .filter-chip{padding:4px 8px; font-size:11px}
+      
+      .bar{min-width:80px; font-size:9px}
+      .bar b{font-size:9px}
+      
+      .day{height:24px; font-size:10px}
+      .day .num{font-size:10px}
+      
+      .phase{padding:8px}
+      .ph-hd{padding:8px}
+      .ph-title{font-size:16px}
+      
+      .task-item{padding:6px; gap:6px}
+      .task-num{width:18px; height:18px; font-size:10px}
+      .task-title{font-size:12px}
+      
+      .tooltip{max-width:250px; padding:6px 10px; font-size:11px}
+    }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <section class="mast">
+      <div class="header-content">
+        <img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAUIAAADQCAIAAAD9Fv83AAAACXBIWXMAABYlAAAWJQFJUiTwAAAgAElEQVR42u1dX4gU2dUvZSAPkwQz0KGWmWVUfNCRqV0fwkDvBlfSGyEMmBAw1AQWhPgwbNISfAibBbUFDT5IiJ0/goHAklYiiAjTCdkdMbI9A4OEZGtwHGSwW1R26IZlwO6naujv4X7UV1/de0+durequ6v6/J6G6unqqnvP7/y/9+7q9XoGYYjRaDTYH6urq+yPra2tzc1N9ner1VpeXtb8Cdu2vb/z+fzExIRhGNPT05OTk4ZhjI+P53I5mohhxi6i8TCg1Wp1Op2NjY2dnZ21tbVWqxULP+MFY/vBgwcPHDjASD41NTU2NkbTRzQeOXQ6nVartbGx8ezZs9XV1cePHzuOk+o3KhQKuVxufn6ecXvv3r00y0TjDHrFr169+s9//rO6uvrgwYPt7e3Mv7JlWYcPH56fn5+dnd2/f//4+DiJAdE4fR7y06dPGW9v3bpFA2Ka5rFjxxirDx06RH440Xh4Te7GxsY///nP27dvD4+9Ze6uYRhD5bpblvXjH//4e9/73ttvv02Gmmg8eKv76NGjYaCubdvz8/N79uyZmZnJ5XIwN1g6bXV1dWtr6/PPPx9sIs2j9NzcHFlponGf0O12nzx5cvfu3Tt37gzWvhWLxbm5uXw+r5lSYm/08OHDe/fuDZbShULhxIkTP/nJT6i+FRk9AgLtdrtarRaLxYHPV7FYrNVqrusm95qWZQ08li6VSo7jkOAhQTQOF+tCoTAMWaJKpdJut/vz4s1ms1QqDYOZSVRtEY2zDNd1a7Wav7cpIR+yXC6XSiXTNOHosVarDUqLVSoV+PGYfimVSknbcLLPRGMsHMdJ2goVCoVqtdput13XhX9rgAQOKLVKpQK/FHvOZrNZLpcT5bNlWeVyuW9eCdE4ZeZXLSbEf8WyLMZe7xdhX71SqQyVJ9lut2H3pFQqef9cr9dDvQy1YfQn54dBxxGNhwJM4KJSt1Qq4TNepVKpXq8HIk9AxG3bHlprU6/XAcrZth1QPbVaDZNZYDmtWq0WNYnY55QB0XgY/edI0S9z55rNZq/XC40YPfPLW1SYw9Vqdfg9F4BshUJB+MoYXWlZFtN3LLTBG3OmK0eZzKNI41qtFskZ9tjLzFGoeQFiWoDDhULB+5VUjCHwIsJwgMXYoeQsFove16Py2bbtgONDNB5pAjM3LyAT5XJZJ2ADOOyX3bSg2WzKBlPGZCSZTdMMJKUj+dsjSGaDCIyhYrPZhI1waFYZ4LA/OZS61KBsWAAmI8nMqzZWAMPPY4q8G6JxeFYGEwMz8yuMr6rVKvzF0IC23W7LRDbt6VYgVLZtO3RY4JjZNE0hFR3HwecXRyFmzjKN2+02ZrJluajQdA6TklBnGDBZmSmZyNiIcTRCPR2ZlmRaABM5VyoVonEqgUwmw6EsIF6FQgEZgMkUQcbKnjImI1+zWq0C8wWoS2TmzEuDE41Tn3rBNw/U63VAMvDaXdb/lMnWBVnwgoxR4Q4T/WA7panEUaRxaNugZVmhrbm1Wi0WpV6v14U3KZfLmbQJsvDBsiw8eYBMhGVZsEZQS4MTjYfLCGsmk0M5HEmXu64rdApCEz9pz0cIWRRJcwFTKUt68WQeKbOcERoD3QiRWpQBDkftrxIWmSPZpZRC5oNECk2B5CKGyT1EE3iobSca99WRg4sW+BZlGYcV3DChKCPlLwMQOsYKKkzWb4MfSbgJPDNJCiPtHAYc6Uj0AziswD3hUw1/v3TS6S6Fwo/+vLiuC7ffpbf9Jgs0htcYRAp+ZH4gnB2NJHnZDonxQbJCM4aMyZHMO1y/4NdmEY0HzGHTNCN5SrJbqXHYdV3h3UanMRB2rdVMn6z+VygUIk0NYJbVpptorJXQAiYjEmFk+WTlSRXmSDPfRRTJtVbrjmw2m7G4xI7jRF2bNfxI3wa3Kysr7777rmxGf/3rX0fa7vjMmTPXrl3j7fnW1pbCTujdbvfNN98M7FltmuaLFy/UNmFutVqfffZZ4OLJkycT3dL573//+87Ojv/K7Ozs7Oyswq0ajca+ffv4aTp37lyMU1+r1d55551Io7qwsCDczdeyrH//+9/p2zE7db50jAvuhV6fTj5ZeEOdXKjrun1Orrbb7Xh/MUaDLHPEFKbMdV1ZOSqNNtlIF4djXCcky8HodN7y/rllWZpvzZfT9O8JgI8eTdPUuaEwfaiTHBbGt5GCZGBsU8rk1NBYljoyTVONeHFVRPxBVxKWU0iD5Lr8+UHWD+x5tpimqcOTGOt5MiYXi0WicfwQzpyyA5xETYjvOtK0Y4CRT6jUKRwW/fW6Qk2ko+CEnpRpmmqPKmNyihKT6aCxrE6g1uMuzE5r2gdhSBnXEgghu5Lw+nhdGZdR4gdczQ2GfR9l7SZjclrWNqaAxrLeDGV1LqwJabZYCZNbce07IQwoYrcVwvRhXHKchJ0XhkXK6Unh3dLSAz/sNJbVdZX1rpAS+i1WydmxviW6Ev0JYcpdU3UKXWvlYZc19qYiSB52GgvdaZ2RFZpiTZvTh7KQ0GmPcd2sULvF2wTO5w40/WrZbCobeVkadfhd66GmsVB2NYNY3rbrq9v+xK681xdjn7YwKIj3FZIYJSHxdPJ/wpBbX92MNI2F4YqOCRJOkn4Ey7ujSSyESCiNLNNusSfDhT6LvkMhNMg62kG4znnI1zMOL42Fpjj2mlAskQ/PgYTWJPKWJ5ZkuDCJmMRaDl4v6z+/0CBrds7xN0y05SbLNBb2DOgYn4SsgVDdJLSeibc8sZSmk4hakc8fi9sSuzckdHyG2SAPKY2FlNPU3PzcxKJihY56Pz0UTfFK4p6RzH5Ct9WMupPIoYwcjZOIA3mdHYtHmpCF6ZvlFFr4hIqlQu0ci+fCs05TE/Wt5SYW7B7OdVf379/ndaHCykE//vSnPwWuzM/P6z/q2tpa4Eo+n09uZH72s58FriwvL7daLeUbXrlyJXDl448/Tmil3tjYGM+3wLpONZw+fTpUhCJhbm6Oj5CfPHkynHwZUhrzlPvlL3+pc8Nut8uLy969e/UflafQkSNHkhuZ2dlZngn8cOFX8PJBwalTp5J7/vfeey9wZX19Xf+2R48eDVzZ3NzU1Dgff/xx4OLdu3dpvbF6qKMfxPL3jCvU6X+3AF/jVXaDE61FI334WCpbQndd8558d2pca11GwqleXV0NVeFRsbGxwXtNCT1/LpdLdHy+//3v837pp59+GvU+nU7n1q1bgYsfffRRn6db02x6xpNvpex0OvHO4/b2dqPRIKdaMdo8fvy45j2fPXsWuDI9PZ2ER20YhmYMjxFZPl2nQL+//OUvvNejtlkPHsklDmZmZjCzEwmYI3WJxlhufOc734ndwk9OTuo/qqa+V8bi4mLgiuM4kQxFt9u9dOlS4OKvfvWr/r8L7xEoJ6VCXbCo4JOgvCBRbCwGfBQTQYZI0T6wuygBwHDuJTCMNCZZUQa+tE66Ug3DecTEbpqYLOHevXuYf2s0GsLtXQmhiCUhNxKxMUEZfC+HEJ988gmNVZZANM4UHMdZWVkJTW6dP3+exkoNSVcTs0NjCtt08Ic//AH+B4UKM8FDcu0GWaMxr/D0u+f5AmAsvVZ8c1ifG334Vspbt27BZTC+wtzPtE1Ci5yE/WH6WWXhngREY0UaP336VPOefNfB69ev9R+V7/SIpdEfD2GLNd/X4WF9fZ1nPl+F7ifiarFIYo0Kf8+k22OyQ2Peb9FcrWIYxsTEBC/QCUVKfe4J4Xs2Ll261O12hf/85z//mWdRP+O95Non+K4h/fe6fft24Mo3vvENojHWwgSu3LlzJ3ZrzCva5OQpUZw4cYL3CIRv1+l0+OMjP/zww2wkjfhuMM2u2FarxR+OGcuquBGlseM4sbe584pWDXxCLhZ3PZJjz7dYX7hwgf9PvqpsmmakI0WTcH1jSRrxjaj6vrrwSFqKjSOA3+Pi6tWrmrIeWAW+vb0di9nkFUQs7nokfPDBB4Ery8vLvGSfPXs2cIVfUps0+D7nWNaoLC0tBa4cPHhQ8558EX5oaZymTXw0t1DhVUMaN/HB72ITyD8nuj+uzqrgWEoGvE80Upv4pGlLPc36Qd+21BvI4vLQ/eJ5J7P/e8QlVG0Snj6lqaF4vTDMm84P7wa3vNglceihvino5wa3sOIDTm8RCnqMZ8coey6xcIM/IUjztrGf5Dq6SyMuX77MJ2CvX7+uEx7zqkG/u5iPuo04Ct1RMTY2xpd/vU4PfrOuPuwQgMlvffe739W/Lb9wWmfntm63yyf/Lcvqcy4wC7GxzCBr2s+E4sOEDqOIxbd0HKc/56qqBUr6Ji72IFZ4+t+QH1k+1DQW+jY6R87GfnLXsKVDhAHwkDyecF9+/ceI9/Sp2EWOaNzrSY6B15mneI/SBMLj/keeMoXSh2PW1KZSPzAWvq+yvyY74njIz2FLAY2FR1HrjKyQcvo+MD/9g9omQjhcSdR49B9M88C62E+cFwZxAykfZo3GPfmuUcpMFgY/msazD+cD67zdwAsnwknUzOcLPTVlDSW8m+bpf0TjkBwSG2I1OZCdfBl7NWsgeRHhkwzcReQNnWbRXhjEKltOoRZOhTudJhrLghZlJgsjZE03OHZJjVfrxVJ7V4Mwha7jUbuuywf8yjkOmbs3nLvnpZjGTBSEUZ8yk2NPZgilYSCJLmFOeKiSW5oRh1BPqfk+Mg4Pc89WimkMSKcak4UmQidgE/rqg5IGobHqfxO1zMmPvdagFhPJfOnhrzClmMY9cJN0BUMao0AANxxIfCV8koEkXYWmWFlXygRA4YbCB9Px74jG8TBZwa0SutaFQkGNycJGpYFEyAm1TMXi8ihrE1lgFXXeXdeVrUZOI4dTSWOYybZtR2KgrC6tzGShGdQskMZiBgey7irGdloZh6MqhWazKYs4UsrhtNIYZrJlWZEERVi6UGayMEIeSH448F79r34JcxlqpljG4ahzJAuGU83hFNOYSQnQsRRJaoF0pQL9hAZ5IIsl/CFD/3cIEM6OWjJSv0jRbreBbX0KhUIq2jwySGNggr25wZtlWfOTApNlVc3+F5889dR/JSKsCSlstxILh6vVKiAnUQMxonEiWh8+ZaJcLiMnSZa6tCwrqg0R+pP9d609k9jnJuq4Xh8InZA6ETbCcW3kRDSOB3AjsWmayCQtUISIakuF5qj/ZeRSqdTnVLnMfkbNk8vmAnkr13VDpWIgzTlEY/VQmflOGKMESE+keFsWHPa5j6rdbvczTy5zjiJ59XBBCMO9Wq0GC0Pag+HM0phNP9BO7JE51EMGTu6JNP2ytrO0NNzHFRJHcqcBdYyJh2u1mqyelJatPEadxkizzEwizEYgKsO76IBtzySTZS+LjMxhNzg0Q4EhcKFQSG9VabRozAQC8I39ZAYkDE6D27aNNMuyDFzGmCwbcKTpq9frAAnhegGGwKZpDqQJh2isi3q9jjkq2bZtWbjVbreBO5imiZFRWaNYqvsNkBzGhMShoZAsm+C6brVaDSUwe4y0l5RGl8bIbIfns1WrVeFkwwlPTNMYUPzMQLJUxmFMyb1SqQCzI4tf2u12qVTCTCsyr0k0ToePDYuLX26EnrZ+GjzetVnDH7yEprVCPWFhHFur1ZBnrFmWlZl6EtFYhcyecfZHv5g0OJw5A5icoo0m/AMiizjgeEEhmdxsNpHml81dhmsBo05jBTJ7+zx7hgXjogOWOca1WQPPOyisE8IQ2F8RbLfblUoFE/2OLIFHlMZ+MuPlw8/n0PYgOHMGl7JS4QcCdXUhh5G5KC+Z3Gw2q9UqJj3pH+3RJPBI09hPqkjiwmK2arVarVYxQZplWZVKJeBpwyYd3wTef8Cpez6nVa/XMZU/FlY4jlMulyPp1tCqIdF4hBAp9PJTNKpz7v9FhQztYP0X2AfxBwWsAxSvHwuFgsLg8/qRaEz4X98vqnGOBJYJZ55z6Nqs4SmWhGYE2Doh13UVvJuoKBaLo5OCJhpruY4K3l1UPjP7HOpzDpbMoUkp1gODDDF0wGKZbHdxEI0TgVq0lgT6nMKJms9Pmr3kPBON4wmeh4HPzCdProWTecWh5XFiL9E49XxOOn5GJnjK5TI7gjyWIIK594M1v16gQZ5zVOzq9XoGITq63e6TJ08ePnx448YN4LCV/hiuEydO7N+/f2ZmJpfLjY+Ph36l1Wp1Op3V1dWtra07d+4M9vlt256fn8/n83v37iW5UgPROAZ0Op3//ve/9+/f//zzz5eXl4fBI83lcsKPHj9+PFjS+qk7Ozt76NChsbExEiGi8TBa6fX19aWlpQcPHmxvb9OYsCjgvffeO378+MzMDFldonH6DPWzZ88Yq4fEEvbNI5iZmZmbm8vn81NTU2RyicaZstUvX77c2NjY2dnJErE90k5PT09OTpK9JRqPHFjCyeO2YRhD641blnX48OFcLucxFplUIxCNR9p0G4bBGG4YxtbW1ubmJvs0dqozirK/8/n8xMSEYRiMq4ZhkIElGhP6gUajEen/iZlEYwKBMCzYTUNAIBCNCQQC0ZhAIBCNCQSiMYFAIBoTCASiMYFAIBoTCERjAoFANCYQCERjAoFANCYQiMYEAoFoTCAQiMYEAoFoTCAQjQkEAtGYQCAQjQkEAtGYQCAaEwgEojGBQCAaEwgEojGBQDQmEAhEYwKBQDQmEAhEYwKBaEwgEIjGBAKBaEwgEIjGBALRmEAgEI0JBALRmEAgEI0JhBHDGA0BIQPodrsvX75U+GIulxsfHycaEwiDx/Xr13/xi18ofLFarf7gBz9I++vv6vV6JASEtKPVaj169GhnZ+err766dOnS9vY28M+maR47diyfz09MTJw8eXJsbIxoTCAMFzqdzg9/+MPl5WXhp4VC4ebNm7lcLjsvvGvX7l0glO988+ZN4LZvvPFGp9MhgSMkgfHx8QsXLgg/sm37H//4R6Y4zIgMf+y6roLL0e1233zzTcCxqVQqCwsLJHCEhNBoNPbt28dfb7fbGUhoBfH++2OFQkHmfhiG8fLly71790a97e3btwEOm6Z58uTJjHlx9+7dE360Z8+eDGRQUodXr17xF0ulUgY5bBhGLjcWu4PR7XbPnj0L/MPVq1czkFTw4969ez/96U9lXhzRuP94/vw5f/GDDz7I5tsePLj74MGDUbWajim2LCtjptgwjLW1NdlH8/PzRKr+Y2lpifcBFfzKdODAgd0HDhyIqtV0TPEf//jHjJliwzD+9a9/yT6anZ0lUvUft27dClxZXFzM7Nvu2bN7z549Md4w1BS/8847GRvDbrfrOI7s0/379xOp+oz19XX+4o9+9KPMvvDMzO6ZmRk1d1HNFGdvDIEeQNM0s5lTGW48fPhwtNyi8fHdsJy1Wi383a5fvw6YYtu2s2eKDcNYXV2VfXTs2DEiVf9x48aNwJVisZjlF87ldseVqe50OnBT6+XLlzM5hnw2xQPlt/qPTqfDxzjHjx/P9luHLFR88OAB8kZXr14FPrVtO6t5QmCI8vk88WoYPOqjR49m+6139Xq9hYUFPrPnAdN03el0vv71rwP/UK/XZTRuNBqGYbx69Yplxbe2trzkeT6fT24dWafTefbsGUuHsB/ds2fPzMxMpF+EX1yhB67VanU6ndevX/sfjH00PT09OTmprw3ZT7BYwLt/Pp9PQs/6fyug4KamppKoWZw5c+batWv+K5ZlffHFF9mmcTzjCJviUqnEi0ij0fjkk0/Onz8fenPLsk6fPn306NFDhw7BE3/z5k2Zi3vjxg1Gzm63++mnn/72t78Fetds2/b+P4BADymcO+D7DX73u98JoxjWB3blyhUg6c3AeuBOnjz59ttvR1Jw3W53bW3twoULshc3TXNxcXFxcdH/hBcvXtzc3JSNNqDdMK9TKBROnToV7xqjAIcNwzh9+rSCiv/a174W+lSdTid2G9Nqtb71rW9FHpBer1cul2FD2gPRbrfhn2i3294/u65brVYty1J4w0Kh0Gw2gScpFArAa/Z6vXq9jv/pcrkcuH+9XtecJNd1A/d0HMe2bYVbmaZZq9V6ONRqNdM0kXeuVqveFwFNJ/wh13UV8knlcpkfGQUItUaoALOZrdVq5XLZtm02ULL/bDab5XLZkzTbtvGzIHvmSqVSLBYD0mtZVqlU8nMHgNHr9SqVig6NS6USbIr9cwwwTVN2XdeFZQ5+zlCBDh0ojBri2aWpF/zDGyOv2G0BtcXruF6vV61W8cqC97lgHY0Bb5BM0xQaHo88QrVeLBaF95cJgHA0QuelUqnwv27bdoAjmJsbocIE0xg2xaZpeupEn8MydoWaykqlosDhwPP3ej01symbD9gJ0tEOsejNer1erVZln/LKVG2EA6OtyWSeFTwhgZcCBKzZbAIjaVlWpOcM6DvLsmq1WsBp9XsWlUolnMawrwjfAp4877sxcpjNN++DAaZSzYfnuadsanjR1xd6mFT6Y25ZFmDGA85eXK8T0JuRILQo/Mi02+1KpeI4Tr1eL5fLwjkNPEOz2QydesdxMA8ZUAemaVYqFVlA4Vf0sIIzQi0qQONQU+w9H8aOmaZZLBb5IAGpLxMq8XtBYLPZ1LyVJxxIX9q27VKp5EVrUQ1yjHoT9lTjVUmyqBtj4kIJifGTA4Pp57BlWdVqVRg7hBpM/gkLhQKQEXBd129+4AjcgDMZsGuONMWwtbcsq1KpBJSN67qwz8nHhJFMrmVZSA/ZE1mmxf0AeGLbdoUD5lFN0yyXy47jBCbYcRyYzHjfJCBJ7NlKpRKe9n6mhabWPX1UqVSq1SrmhzBJKR78hALhBhCL+QXe43AgKcNLfmiiK/CVUA4HRglWE0aouyjTjrAptizLe0rATsIvA4QxgacC8luBn/MzxHXdWq0Wyn+83GAmFTDFcHAIuwOBqYE5z4SSt1SYuDEQK8E/ZNu20B7CWkmWYYIzRmqZJ17feUrE4xJfIgG+heFwsViEM/O8DYOddiNUImU0hk2xX45lEyYMcSMlnyOVgmSTGvpdmWOm8BV43ELjK0Ah4qcGVhaYkfSeEy8DUbVS1PqTcqkpIPn+eIF9JLQ0/EQAD8zb4dCnClAmNIUWTmPhLUJNMWa2QoslQIAXoHGoDwmLFOxgRxV3YZEj9I0w2U7gNfEJi9BscGi4wZQU/EPCagJeKyEzRoDmgmdBpos9mWRD7XcqAZoBzOQdHEw2PuAhhroVBoYGOqbYdd26BKEaFxCUwIvBkhfqpMFZbk2Hn+e/EJjZDe1vCa1jYXoV4HDXGxDgh5BeMRBfYDJGUUtNmDdl48N0tEzl8ZYJ7+gh38svkLLARJfGsBpWzjRiIgTZcACBFqaGAZgFmTQAiiyqCCIB2H//mANDgS9vhupEOCpGFo2AN8J4arDHh1FYvIC5ruu9mswn5zW40HcIpJqR7rR/cMrlMjLbZ2AiokhFQrU0Y+D9QzNP/l9RLphhrJzs68BXojqEGDFFtsrB84hvGwQoygYEsNj4BBU+95FEqYm34YxmzLMDxIZ3/YR+Ja8j9KmhRWM8ZyKNvudvezUPTI2UHzjYCcRMp4JW0vxFGV1Zcy8bENu2kVU0LxAFvKrQhCJSSbEBiasFLRZBUis18ZLMSmLwr/OqR/jP/M1j9FKlNIYLNn5R1jHFzMwyuurMccA5BGQXM50KKVPl/BZ/H0ZXzf4wb9iB6CBS32/ogCTXWxJV6JVLTbwNZ7E6HIXxNkOYzFMoLMdAY3jmvAeFTTEQz7Tb7Ri7rAJuG6AUFHprMMEkoDgw8sfa4jWpK0xeAPfEpI5DZ5mpRWSVPsYpTqLUFBBIy7KYboIHiucnz3l+fCIpdy0aA/6bRwbYFAt1GBPZeOc4MNCA7GKmE3gpmWICVFKo4nAcR6fHG1YcseQsQjNP+gs28R0mCZWaZJoo1H0LzJ1Q0fMZ+EgZOy0ah9o0BVPcbDaVlxYDX/RLpH4XAeAfyhQz8tl40VGLJuDWUb8DGUvEDrgnbECGisZxlZowyg5ZauIlKvasZwD/t8kAsLfe2trawsICsMWHaZr81rbdbteyLPikWe/rbBPJXC53/Pjxo0ePjo+Pv/XWW7L/9+8l8vTpU0AXYHZRALYBEe7+C29MPTU1Jfvo8uXLwGZJgSdn0zE/P//+++/ncrnf//73su96G02x7ZBkwO9T8dFHH8ED8vr1a0DjHD58WJ/GyG3MWq0WPxeYY0nu3r0rNEXwTkaPHj2SDT4sUYlvV46M9xQWM8LBMFssIlN+gI0NBJ9AyhTjycDvFbU7AijMwquaTNMslUr1el1mMwGXwftKpKqh2nOGikrSZgeTpFAoNSEz+bxPhBTdpMfBQLYlAU6d8P3hJvvQrB3wdXz/FiapA/yQLEwChFjmzsFrFUqlEixAQDgTUBz6sTGmux5QZH2mMa/dlGsToW48H04Lp5tXplE3FdCisXLAI3x/TXYBwWdAUDQFF8hvyYoWColxzcw2XnFoRpuwKfYGBN5opW8cjrHUhDHF/OAIJZmfrEQrxsHYWLmEKwxFgCAw9KBQYcAjDDPgjSkxO7beuXNH9tGRI0eE1xU2pt7a2pJ95cMPPwx9yCtXrsg+CmykblmWbOjOnj0L70G5srLy7rvvAo8hGxA/lpaWMAfQt1qtzz77TPYp8gh74clEmC3+//rXvwauYA7rvX//PiYw/uqrr9Ti/Hhi4x5iP2qke4yPbKOau4B/AlgPZP0WeDVhWzycrpdpdExkq+D28x4HfnvDSHaYHxAgwgp9I3h3IXxtJq5SE7K/DbmqiZfepKtN/8+pVqCxzOkHZCI0ToClNuBDKrjEyeW3DKWVyaF9b5E2/Qjdi8O2bb/Isq3bMLvwBBiisEA9lkZAuF8AU2pSK+riVzXF5VS7rhuaNBHTOGqHnSxTBVMRCJ9Ct6oJRCPAA2N63xRCVriVRSYQMK+AzBY8I0KDgClNsz2QI/uZb9QAAAShSURBVBWxA88Zqm2FGi20mQ8v8UKFhUm78EoEs0QU3u6D9Uew+whtmAKH2dQLlUWz2QwMrxFVAjAjDls54TLO0M23hKo6qkus34wV2pFmmiZL7DN9xB4D7oER7o2I2SBeNsd96McIdRPYpmKVSoWtfmGbuYe+Eb5HRWjSMV+PurFGaKmJDYUn1ULhj5TA928exAsG+7mABjeQNdiozg/GSSsWi1E3c0MqC2QLKz4fjqex8DEw/eRsdzt2cAHy/jLjk8TyI35AYu+xxWe5ZUokRt8YlmfPe/co53l/woSLbBcR4RMCHPbLkn+4DLWJCXV+NNcwYcipvP8GJlkl0+uRynLeYyC3qosKmSYNNZUyPRJpQOLdezxSHkgoqGqlO4zXJtvEwxuBwMMLtTbmBb2tc2V2OKCgPSYbUdOVyDwEZofuqAjMk+b+G0A2CDDmkRb3+B8jCb0G929HWlJWKBQADSXzPEO34EyCwzLRwrhg/DlJap1t7HQldjdefcjUqOwQMraA15MQ4b6ZsuPHmHdtKJga5KArmCC28SqSxpr7byg0Y2ESrTKaqUk8nIgK9dOQhyqxk9DU9tZSXv2ixmFYqODULu9/IX8aToUKfxEWY2/XbnaOlDdHpmnKAiXghkEaI7MjkdbK4GXXy/VhbAJsFTFxiM4qZSSTA4/RbDbxNpkdCwI/J6Y20263S6WSkGleI3dopgDOAKud9sYmFHNeJ9tcwX+OIXxPlnOpVqsB08czAZl5kukOWAtEzR2EHhjKG2Tbtv+XMlFTU1Fr2Zj1xoHTJTEpLgUPMLTqGIkejuPAsitrDwjdZowdo4E5NyfShhJshyB2kiC/MynsiGECSKYvkFq7WCwiKaRzskxAHfPzhRw6YRoFkxtDKm786ar+bfr8zukuteYtBTQajVevXj1//pz10M3Nzc3OzpqmCSyQHH50u92XL18ahrGxsbGzszM9PT05Ock+yuVywNrAVqvV6XRWV1e3trY2Nzfz+fyRI0cmJycxDaRJYGFhQdY/a1nWF198gb9Vq9V69OjRzs4OezV2MZ/PT0xMsPGJ9I5soNReampqyt9iGbjV+Pg4XvZWVlbYCe/sMPezZ8/iF36urKw8f/58aWnp8ePHXkaGrUXN5/OnTp2KdNZ5o9HYt2+faZpbW1veF/tHY0JyWF9f/81vfiP8KJ/P//znP8dIBuB/nTt3jgaZaW3MCvaksbKy8s1vfnN2dta7QjTOAgAemqb55Zdfwl8/c+bMtWvXAI861R7TKGA3DUG2sb29De8KcvHiRYDDtm0Th4cfZI0zgjfeeEO2X5Jpmo7jCNl48eLF8+fPA7d1HMfvvBHIGhMSxOLiImCQv/3tb585c2Z9fb3RaHQ6nZWVlYsXL7711lswh4vFInGYrDGhf+h0OgcOHMBsYIiEaZovXrwYhowOgazxqGB8fDx0mWckDjuOQxwmGhP6jVwuFwuTgViaQDQmpIDJpVLpxYsXxGGiMWHATP7yyy/9K2bwBK7X6+fOnSNfOnWgFFeW0Wq1/va3v62urhqivUrZYR3z8/PT09Nzc3PE3tSSeBeNAYGQevwPIVnQBn6Qa9kAAAAASUVORK5CYII=" alt="Vantage Inc Logo" class="logo" />
+        <div class="header-text">
+          <h1>CBS Phase 2 — Key Art Automation · SOW & Schedule</h1>
+          <p>Scope, phases, deliveries, and timeline starting Nov 3, 2025. Weekly Friday check-ins. Deploy per phase on CBS AWS <strong>(Mondays)</strong>.</p>
+        </div>
+      </div>
+      <div class="badges">
+        <span class="badge">3 Phases</span>
+        <span class="badge">10 weeks total</span>
+        <span class="badge">AWS deploy per phase (Mon)</span>
+        <span class="badge">Weekly check-ins (Fri)</span>
+      </div>
+    </section>
+
+    <section class="grid">
+      <article class="card" style="grid-column:span 5">
+        <h3>Overview</h3>
+        <p>Expansion and refinement of the AI poster resizing platform with creative controls (dropshadow, vignette), PSD export, versioning, layouts, and UX polish — integrated and tested in CBS AWS.</p>
+      </article>
+      <article class="card" style="grid-column:span 4">
+        <h3>Scope of Work</h3>
+        <ul>
+          <li>Architecture & UX Features: move/scale layers, dropshadow, vignette, PSD export, versioning, backend & AWS updates, QA</li>
+          <li>UI/UX Redesign (2 rounds) — reviews on Fridays: second half of Phase 2 cadence → <strong>Nov 28</strong>, <strong>Dec 12</strong></li>
+          <li>25 US Weekly Layouts (logic, safe zones, QA, AWS integration)</li>
+          <li>Testing, Integration & Deployment (Mondays)</li>
+        </ul>
+      </article>
+      <article class="card" style="grid-column:span 3">
+        <h3>Deliverable</h3>
+        <p>Updated CBS AI resizing platform with 25 US Weekly layouts and new creative features, fully integrated and tested on CBS AWS.</p>
+      </article>
+    </section>
+
+    <section class="band">
+      <h4>Timeline Bands</h4>
+      <div class="bar-row" id="band-parallel" style="margin-bottom:8px"></div>
+      <div class="bar-row" id="band-design" style="margin-bottom:8px"></div>
+      <div class="bar-row" id="band-21"></div>
+      <div class="bar-row" id="band-22"></div>
+      <div class="bar-row" id="band-23"></div>
+      <div class="bar-row" id="band-final" style="margin-top:12px;border:2px solid #10b981;background:#f0fdf4"></div>
+      <div class="legend" style="display:flex;gap:16px;align-items:center;font-size:12px;color:var(--ink-3);padding:8px 0;margin-top:8px;border-top:1px solid var(--line)">
+        <span style="background:#94a3b8;color:#111;padding:2px 8px;font-size:11px;border-radius:3px">⟳ UI/UX</span>
+        <span style="background:#a78bfa;color:#fff;padding:2px 8px;font-size:11px;border-radius:3px">⚙ Design Logic</span>
+        <span style="background:#10b981;color:#fff;padding:2px 8px;font-size:11px;border-radius:3px">🚀 Final Deploy</span>
+      </div>
+    </section>
+
+    <section class="cal" id="calendar"></section>
+
+    <div class="controls">
+      <div>
+        <button class="chip" data-phase="all" aria-pressed="true">All</button>
+        <button class="chip" data-phase="2.1">Phase 2.1</button>
+        <button class="chip" data-phase="2.2">Phase 2.2</button>
+        <button class="chip" data-phase="2.3">Phase 2.3</button>
+      </div>
+      <div class="spacer"></div>
+      <button class="btn" onclick="window.print()">Export PDF</button>
+    </div>
+
+    <div class="empty-state hidden" id="emptyState">
+      <h3>📋 View Project Details</h3>
+      <p>Click a <strong>Phase button</strong> (Phase 2.1, 2.2, 2.3, or All) to see phase goals and timeline.</p>
+    </div>
+
+    <div id="phases"></div>
+    <div style="text-align:center; margin:12px 0" id="closeBtn">
+      <button class="close-btn" onclick="closePhaseDetails()">✕ Close Details</button>
+    </div>
+  </div>
+
+  <div class="tooltip" id="tooltip">
+    <h4 id="tooltipTitle"></h4>
+    <ul id="tooltipContent"></ul>
+  </div>
+
+  <script>
+    const data = {
+        phases:[
+          { id:"2.1", title:"Phase 2.1", start:"2025-11-03", end:"2025-11-26", deploy_date:"2025-11-26", goals:["PSD export (Save as PSD)", "Dropshadow"], micro:[] },
+          { id:"2.2", title:"Phase 2.2", start:"2025-11-27", end:"2025-12-17", deploy_date:"2025-12-17", goals:["Move/Scale layers","Vignette controls","Versioning + Compare"], micro:[] },
+          { id:"2.3", title:"Phase 2.3", start:"2025-12-18", end:"2026-01-14", deploy_date:"2026-01-14", goals:["25 US Weekly Layouts"], micro:[] }
+        ],
+      parallel: {
+        title: "UI/UX Redesign (2 rounds)",
+        desc: "Running in parallel across all phases",
+        start: "2025-11-03",
+        end: "2025-12-17"
+      },
+        designLogic: {
+          title: "Design Logic Rules",
+          desc: "Format logic and implementation",
+          start: "2025-11-03",
+          end: "2025-12-17",
+        phases: [
+          {
+            phaseId: "2.1",
+            tasks: [
+              { date: "2025-11-03", title: "Design logic rules for 10 formats", desc: "Define rules and logic (Week 1-3)" }
+            ]
+          },
+          {
+            phaseId: "2.2",
+            tasks: [
+              { date: "2025-11-24", title: "Design logic rules for 10 formats", desc: "Week 4-5" },
+              { date: "2025-12-08", title: "Design logic rules for 5 formats", desc: "Week 6-7" }
+            ]
+          },
+          {
+            phaseId: "2.3",
+            tasks: []
+          }
+        ]
+      },
+        checkins:[
+          { date:"2025-11-21", type:"Check-in", title:"Weekly check-in", desc:"2.1 in progress." },
+          { date:"2025-12-05", type:"Check-in", title:"Weekly check-in", desc:"2.2 monitoring." },
+          { date:"2025-12-12", type:"Check-in", title:"Weekly check-in", desc:"2.2 interim demo." },
+          { date:"2025-12-19", type:"Check-in", title:"Weekly check-in", desc:"2.3 start." },
+          { date:"2026-01-09", type:"Check-in", title:"Weekly check-in", desc:"2.3 progress." }
+        ],
+      /* 2 UX/UI reviews */
+      uxreviews:[
+        { date:"2025-12-05", type:"UX", title:"UX/UI Review #1", desc:"Iteration & polish." },
+        { date:"2025-12-12", type:"UX", title:"UX/UI Review #2", desc:"Second pass." },
+      ],
+      /* Deploys los LUNES */
+        deploys:[
+          { date:"2025-11-26", type:"Deploy", title:"Phase 2.1 Deploy to AWS (Wed)", desc:"Dropshadow + PSD export available.", combo:"deploy" },
+          { date:"2025-12-17", type:"Deploy", title:"Phase 2.2 Deploy to AWS (Wed)", desc:"Move/Scale, Vignette, Versioning + Compare.", combo:"deploy" },
+          { date:"2026-01-14", type:"Deploy", title:"Phase 2.3 Deploy to AWS (Tue)", desc:"UI/UX final + 25 US Weekly layouts integrated.", combo:"deploy" }
+        ]
+    };
+
+    const format = (iso)=> {
+      const [y, m, d] = iso.split('-');
+      const date = new Date(parseInt(y), parseInt(m)-1, parseInt(d));
+      const days = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${days[date.getDay()]}, ${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    };
+    const formatShort = (iso)=> {
+      const [y, m, d] = iso.split('-');
+      const date = new Date(parseInt(y), parseInt(m)-1, parseInt(d));
+      const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+      return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`;
+    };
+
+    const $phases = document.getElementById('phases');
+    const $calendar = document.getElementById('calendar');
+
+    let filters = { phase:'all', type:null, phaseClicked:true, typeView:null };
+
+    function renderBands(){
+      const min = new Date('2025-11-03');
+        const max = new Date('2026-01-14'); // Include final deploy
+      const span = max - min;
+      
+      // UI/UX Parallel bar (ends Dec 17)
+      const parallelRow = document.getElementById('band-parallel');
+      if(parallelRow){
+        parallelRow.innerHTML = '';
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        const uxStart = new Date('2025-11-03');
+        const uxEnd = new Date('2025-12-17');
+        const left = ((uxStart - min) / span) * 100;
+        const width = ((uxEnd - uxStart) / span) * 100;
+        bar.style.left = left + '%';
+        bar.style.width = width + '%';
+        bar.style.background = 'rgba(148,163,184,.22)';
+        bar.style.border = '1px solid #94a3b8';
+        bar.style.cursor = 'pointer';
+        bar.innerHTML = `<b>⟳ UI/UX Redesign  · Nov 3 → Dec 17</b>`;
+        
+         // Add tooltip to parallel bar
+         bar.addEventListener('mouseenter', (e) => {
+           $tooltipTitle.textContent = data.parallel.title;
+           $tooltipContent.innerHTML = `<li>UX/UI redesign with 2 rounds of notes</li>`;
+           $tooltip.classList.add('visible');
+           updateTooltipPosition(e);
+         });
+        bar.addEventListener('mousemove', updateTooltipPosition);
+        bar.addEventListener('mouseleave', hideTooltip);
+        
+        parallelRow.appendChild(bar);
+      }
+      
+      // Design Logic bar (ends Dec 17)
+      const designRow = document.getElementById('band-design');
+      if(designRow){
+        designRow.innerHTML = '';
+        const bar = document.createElement('div');
+        bar.className = 'bar';
+        const designStart = new Date('2025-11-03');
+        const designEnd = new Date('2025-12-17');
+        const left = ((designStart - min) / span) * 100;
+        const width = ((designEnd - designStart) / span) * 100;
+        bar.style.left = left + '%';
+        bar.style.width = width + '%';
+        bar.style.background = 'rgba(167,139,250,.18)';
+        bar.style.border = '1px solid #a78bfa';
+        bar.style.cursor = 'pointer';
+        bar.innerHTML = `<b>⚙ Design Logic Rules · Nov 3 → Dec 17</b>`;
+        
+         bar.addEventListener('mouseenter', (e) => {
+           $tooltipTitle.textContent = data.designLogic.title;
+           $tooltipContent.innerHTML = `<li>Design 25 US Weekly Layouts</li>`;
+           $tooltip.classList.add('visible');
+           updateTooltipPosition(e);
+         });
+        bar.addEventListener('mousemove', updateTooltipPosition);
+        bar.addEventListener('mouseleave', hideTooltip);
+        
+        designRow.appendChild(bar);
+      }
+      
+      const rows = [
+        { id:'band-21', phase:data.phases[0], cls:'bar-21' },
+        { id:'band-22', phase:data.phases[1], cls:'bar-22' },
+        { id:'band-23', phase:data.phases[2], cls:'bar-23' }
+      ];
+      rows.forEach(({id, phase, cls})=>{
+        const row = document.getElementById(id);
+        row.innerHTML = '';
+        const s = new Date(phase.start), e = new Date(phase.end);
+        const left = ((s-min)/span)*100; const width = ((e-s)/span)*100;
+        const bar = document.createElement('div'); bar.className='bar '+cls;
+        bar.style.left = left+'%'; bar.style.width = width+'%';
+        const startShort = formatShort(phase.start).split(',')[0].trim();
+        const endShort = formatShort(phase.end).split(',')[0].trim();
+        bar.innerHTML = `<b>${phase.id} · ${startShort} → ${endShort}</b>`;
+        bar.style.cursor = 'pointer';
+        
+         // Add tooltip to timeline bars - Implementation/Features only
+         bar.addEventListener('mouseenter', (e) => {
+           $tooltipTitle.textContent = phase.title + ' - Implementation/Features';
+           let implTasks = '';
+           
+           if(phase.id === '2.1'){
+             implTasks = `
+               <li>PSD export (Save as PSD)</li>
+               <li>Dropshadow</li>
+               
+             `;
+           } else if(phase.id === '2.2'){
+             implTasks = `
+               <li>Move/Scale layers</li>
+               <li>Vignette controls</li>
+               <li>Implement 20 formats</li>
+               <li>Versioning + Compare</li>
+              
+             `;
+           } else if(phase.id === '2.3'){
+             implTasks = `
+               <li>Implement 5 formats</li>
+               <li>Final testing</li>
+               <li>Last fixes</li>
+               <li>Packaging</li>
+             `;
+           }
+           
+           $tooltipContent.innerHTML = implTasks;
+           $tooltip.classList.add('visible');
+           updateTooltipPosition(e);
+         });
+        bar.addEventListener('mousemove', updateTooltipPosition);
+        bar.addEventListener('mouseleave', hideTooltip);
+        
+        row.appendChild(bar);
+      });
+      
+      // Final Deployment marker (vertical line at end)
+      const finalRow = document.getElementById('band-final');
+      if(finalRow){
+        finalRow.innerHTML = '';
+        finalRow.style.position = 'relative';
+        finalRow.style.height = '40px';
+        finalRow.style.display = 'flex';
+        finalRow.style.alignItems = 'center';
+        
+        const finalDate = new Date('2026-01-14');
+        const left = ((finalDate - min) / span) * 100;
+        
+        // Vertical marker line
+        const marker = document.createElement('div');
+        marker.style.position = 'absolute';
+        marker.style.left = left + '%';
+        marker.style.width = '4px';
+        marker.style.height = '100%';
+        marker.style.background = 'linear-gradient(180deg, #10b981 0%, #059669 100%)';
+        marker.style.borderRadius = '2px';
+        marker.style.cursor = 'pointer';
+        
+        // Dot at top
+        const dot = document.createElement('div');
+        dot.style.position = 'absolute';
+        dot.style.top = '-6px';
+        dot.style.left = '50%';
+        dot.style.transform = 'translateX(-50%)';
+        dot.style.width = '16px';
+        dot.style.height = '16px';
+        dot.style.borderRadius = '50%';
+        dot.style.background = '#10b981';
+        dot.style.border = '3px solid #059669';
+        marker.appendChild(dot);
+        
+        // Badge-style label (instead of separate label)
+        const badge = document.createElement('div');
+        badge.style.position = 'absolute';
+        badge.style.left = left + '%';
+        badge.style.transform = 'translateX(-100%)';
+        badge.style.marginLeft = '-10px';
+        badge.style.background = 'linear-gradient(135deg, #10b981 0%, #059669 100%)';
+        badge.style.color = '#fff';
+        badge.style.padding = '6px 12px';
+        badge.style.borderRadius = '4px';
+        badge.style.fontSize = '11px';
+        badge.style.fontWeight = '700';
+        badge.style.whiteSpace = 'nowrap';
+        badge.style.boxShadow = '0 2px 6px rgba(0,0,0,.2)';
+        badge.style.cursor = 'pointer';
+        badge.style.top = '50%';
+        badge.style.transform = 'translate(-100%, -50%)';
+        badge.innerHTML = '🚀 FINAL DEPLOYMENT · Tue Jan 14';
+        
+        marker.addEventListener('mouseenter', (e) => {
+          $tooltipTitle.textContent = '🚀 Final Deployment to AWS';
+          $tooltipContent.innerHTML = `
+            <li>Complete platform deployment</li>
+            <li>All 3 phases integrated</li>
+            <li>25 formats live</li>
+            <li>Full feature set available</li>
+            <li><strong>Project completion</strong></li>
+          `;
+          $tooltip.classList.add('visible');
+          updateTooltipPosition(e);
+        });
+        marker.addEventListener('mousemove', updateTooltipPosition);
+        marker.addEventListener('mouseleave', hideTooltip);
+        
+        badge.addEventListener('mouseenter', (e) => {
+          $tooltipTitle.textContent = '🚀 Final Deployment to AWS';
+          $tooltipContent.innerHTML = `
+            <li>Complete platform deployment</li>
+            <li>All 3 phases integrated</li>
+            <li>25 formats live</li>
+            <li>Full feature set available</li>
+            <li><strong>Project completion</strong></li>
+          `;
+          $tooltip.classList.add('visible');
+          updateTooltipPosition(e);
+        });
+        badge.addEventListener('mousemove', updateTooltipPosition);
+        badge.addEventListener('mouseleave', hideTooltip);
+        
+        finalRow.appendChild(marker);
+        finalRow.appendChild(badge);
+      }
+    }
+
+    function render(){
+      const $empty = document.getElementById('emptyState');
+      const $closeBtn = document.getElementById('closeBtn');
+      $phases.innerHTML = '';
+      if(!filters.phaseClicked){ $empty.classList.remove('hidden'); $closeBtn.style.display='none'; return; }
+      $empty.classList.add('hidden'); $closeBtn.style.display='block';
+
+      const phases = data.phases.filter(p=> filters.phase==='all' || p.id===filters.phase);
+      if(filters.phase === 'all'){
+        const allPhasesBox = document.createElement('section');
+        allPhasesBox.className = 'phase visible';
+        allPhasesBox.innerHTML = `
+          <div class="ph-hd" style="background:#fff">
+            <div style="flex:1">
+              <h2 class="ph-title" style="font-size:16px">All Phases Overview</h2>
+                <div class="ph-dates">${formatShort('2025-11-03')} → ${formatShort('2026-01-14')} • 10 weeks total</div>
+            </div>
+          </div>
+          <div style="padding:16px;overflow-x:auto">
+            <table style="width:100%;border-collapse:collapse;font-size:12px;min-width:900px">
+              <thead>
+                <tr style="border-bottom:2px solid var(--ink)">
+                  <th style="padding:8px;font-weight:700;color:var(--ink);text-align:left;min-width:120px">Track</th>
+                  <th style="padding:8px;font-weight:700;background:var(--coral);color:#fff;text-align:center">
+                    <div style="font-size:13px;margin-bottom:3px">Week 1-4</div>
+                    <div style="font-size:10px;opacity:0.9;font-weight:500">Phase 2.1</div>
+                  </th>
+                  <th style="padding:8px;font-weight:700;background:var(--sky);color:#fff;text-align:center">
+                    <div style="font-size:13px;margin-bottom:3px">Week 5-7</div>
+                    <div style="font-size:10px;opacity:0.9;font-weight:500">Phase 2.2</div>
+                  </th>
+                  <th style="padding:8px;font-weight:700;background:#94a3b8;color:#111;text-align:center">
+                    <div style="font-size:13px;margin-bottom:3px">Week 8-11</div>
+                    <div style="font-size:10px;opacity:0.9;font-weight:500">Phase 2.3</div>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <!-- Design Logic Row -->
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:10px;font-weight:700;color:var(--ink);background:#faf8ff">
+                    <div style="display:flex;align-items:center;gap:6px">
+                      <span style="background:#a78bfa;color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px">⚙</span>
+                      Design Logic
+                    </div>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fafbfc">
+                    <ul style="margin:0;padding-left:16px;color:var(--ink-2);line-height:1.5">
+                      <li style="margin:2px 0;font-size:11px">Design logic rules for 10 formats</li>
+                    </ul>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fafbfc">
+                    <ul style="margin:0;padding-left:16px;color:var(--ink-2);line-height:1.5">
+                      <li style="margin:2px 0;font-size:11px">Design logic rules for 10 formats</li>
+                      <li style="margin:2px 0;font-size:11px">Design logic rules for 5 formats</li>
+                    </ul>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fafbfc">
+                    <span style="color:var(--ink-3);font-size:11px">—</span>
+                  </td>
+                </tr>
+                <!-- UX/UI Row -->
+                <tr style="border-bottom:1px solid var(--line)">
+                  <td style="padding:10px;font-weight:700;color:var(--ink);background:#f9fafb">
+                    <div style="display:flex;align-items:center;gap:6px">
+                      <span style="background:#94a3b8;color:#111;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px">⟳</span>
+                      UX/UI
+                    </div>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fafbfc">
+                    <ul style="margin:0;padding-left:16px;color:var(--ink-2);line-height:1.5">
+                      <li style="margin:2px 0;font-size:11px">UX/UI Design baseline</li>
+                    </ul>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fafbfc">
+                    <ul style="margin:0;padding-left:16px;color:var(--ink-2);line-height:1.5">
+                      <li style="margin:2px 0;font-size:11px">UX/UI Review #1</li>
+                      <li style="margin:2px 0;font-size:11px">UX/UI Review #2</li>
+                    </ul>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fafbfc">
+                    <span style="color:var(--ink-3);font-size:11px">—</span>
+                  </td>
+                </tr>
+                <!-- Implementation/Features Row -->
+                <tr>
+                  <td style="padding:10px;font-weight:700;color:var(--ink);background:#fff">
+                    <div style="display:flex;align-items:center;gap:6px">
+                      <span style="background:var(--ink);color:#fff;width:20px;height:20px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px">▶</span>
+                      Implementation/Features
+                    </div>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fff">
+                    <ul style="margin:0;padding-left:16px;color:var(--ink-2);line-height:1.5">
+                      <li style="margin:2px 0;font-size:11px">PSD export (Save as PSD)</li>
+                      <li style="margin:2px 0;font-size:11px">Dropshadow</li>
+                    </ul>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fff">
+                    <ul style="margin:0;padding-left:16px;color:var(--ink-2);line-height:1.5">
+                      <li style="margin:2px 0;font-size:11px">Move/Scale layers</li>
+                      <li style="margin:2px 0;font-size:11px">Vignette controls</li>
+                      <li style="margin:2px 0;font-size:11px">Implement 20 formats</li>
+                      <li style="margin:2px 0;font-size:11px">Versioning + Compare</li>
+                    </ul>
+                  </td>
+                  <td style="padding:8px;vertical-align:top;background:#fff">
+                    <ul style="margin:0;padding-left:16px;color:var(--ink-2);line-height:1.5">
+                      <li style="margin:2px 0;font-size:11px">Implement 5 formats</li>
+                      <li style="margin:2px 0;font-size:11px">Final testing</li>
+                      <li style="margin:2px 0;font-size:11px">Last fixes</li>
+                      <li style="margin:2px 0;font-size:11px">Packaging</li>
+                    </ul>
+                  </td>
+                </tr>
+              </tbody>
+             </table>
+            <div style="margin-top:12px;padding:12px;background:#fafbfc;border-left:3px solid var(--ink-3);font-size:12px;color:var(--ink-2)">
+              <strong>Weekly Check-ins:</strong> Every Friday • 
+              <strong>Total:</strong> ${data.checkins.length} check-ins, ${data.deploys.length} deploys •
+              <strong>Parallel Work:</strong> UI/UX + Design Logic (25 formats)
+            </div>
+          </div>
+        `;
+        $phases.appendChild(allPhasesBox);
+        return;
+      }
+
+      phases.forEach(p=>{
+        const box = document.createElement('section'); box.className='phase visible';
+        box.innerHTML = `
+          <div class="ph-hd">
+            <span class="ph-tag ph-${p.id.replace('.','')}">${p.id}</span>
+            <div style="flex:1">
+              <h2 class="ph-title">${p.title}</h2>
+               <div class="ph-dates">${format(p.start)} → ${format(p.end)}</div>
+               ${filters.phase !== 'all' ? '<div style="font-size:11px;color:#94a3b8;margin-top:4px;font-style:italic">+ UI/UX & Design Logic in parallel</div>' : ''}
+            </div>
+          </div>
+           <div class="tasks-section">
+             <h3>Tasks by Category</h3>
+             <div class="task-list"></div>
+           </div>
+          <div class="events-section">
+            <h3>Timeline & Events</h3>
+            <div class="events-list"></div>
+          </div>
+        `;
+        const taskList = box.querySelector('.task-list');
+        const eventsList = box.querySelector('.events-list');
+        
+        // Define tasks by category based on All Phases Overview table
+        const phaseTasks = {
+          '2.1': {
+            design: ['Design logic rules for 10 formats'],
+            uxui: ['UX/UI Design baseline'],
+            impl: ['PSD export (Save as PSD)', 'Dropshadow']
+          },
+          '2.2': {
+            design: ['Design logic rules for 10 formats', 'Design logic rules for 5 formats'],
+            uxui: ['UX/UI Review #1', 'UX/UI Review #2'],
+            impl: ['Move/Scale layers', 'Vignette controls', 'Implement 20 formats', 'Versioning + Compare' ]
+          },
+          '2.3': {
+            design: [],
+            uxui: [],
+            impl: ['Implement 5 formats', 'Final testing', 'Last fixes', 'Packaging']
+          }
+        };
+        
+        const tasks = phaseTasks[p.id];
+        let taskIdx = 1;
+        
+        // Design Logic section
+        if(tasks.design.length > 0){
+          const sectionHeader = document.createElement('div');
+          sectionHeader.className = 'category-header';
+          sectionHeader.innerHTML = '<span class="category-icon" style="background:#a78bfa;color:#fff">⚙</span><span class="category-title">Design Logic</span>';
+          taskList.appendChild(sectionHeader);
+          
+          tasks.design.forEach((task) => {
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
+            taskItem.style.borderLeftColor = '#a78bfa';
+            taskItem.innerHTML = `
+              <div class="task-num" style="background:#a78bfa">${taskIdx++}</div>
+              <div class="task-content">
+                <div class="task-title">${task}</div>
+              </div>
+            `;
+            taskList.appendChild(taskItem);
+          });
+        }
+        
+        // UX/UI section
+        if(tasks.uxui.length > 0){
+          const sectionHeader = document.createElement('div');
+          sectionHeader.className = 'category-header';
+          sectionHeader.innerHTML = '<span class="category-icon" style="background:#94a3b8;color:#111">⟳</span><span class="category-title">UX/UI</span>';
+          taskList.appendChild(sectionHeader);
+          
+          tasks.uxui.forEach((task) => {
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
+            taskItem.style.borderLeftColor = '#94a3b8';
+            taskItem.innerHTML = `
+              <div class="task-num" style="background:#94a3b8;color:#111">${taskIdx++}</div>
+              <div class="task-content">
+                <div class="task-title">${task}</div>
+              </div>
+            `;
+            taskList.appendChild(taskItem);
+          });
+        }
+        
+        // Implementation/Features section
+        if(tasks.impl.length > 0){
+          const sectionHeader = document.createElement('div');
+          sectionHeader.className = 'category-header';
+          sectionHeader.innerHTML = '<span class="category-icon" style="background:var(--ink);color:#fff">▶</span><span class="category-title">Implementation/Features</span>';
+          taskList.appendChild(sectionHeader);
+          
+          tasks.impl.forEach((task) => {
+            const taskItem = document.createElement('div');
+            taskItem.className = 'task-item';
+            taskItem.innerHTML = `
+              <div class="task-num">${taskIdx++}</div>
+              <div class="task-content">
+                <div class="task-title">${task}</div>
+              </div>
+            `;
+            taskList.appendChild(taskItem);
+          });
+        }
+
+        // eventos por día; merge check-in + UX; deploy separado (Mon)
+        const rawEvents = [
+          ...data.checkins.filter(c=> new Date(c.date)>=new Date(p.start) && new Date(c.date)<=new Date(p.end)),
+          ...data.uxreviews.filter(u=> new Date(u.date)>=new Date(p.start) && new Date(u.date)<=new Date(p.end)),
+          ...data.deploys.filter(d=> new Date(d.date)>=new Date(p.start) && new Date(d.date)<=new Date(p.end) || d.date === p.deploy_date)
+        ];
+        const byDate = new Map();
+        rawEvents.forEach(evt=>{
+          const key = evt.date;
+          if(!byDate.has(key)) byDate.set(key, []);
+          byDate.get(key).push(evt);
+        });
+          const merged = Array.from(byDate.entries()).sort((a,b)=> new Date(a[0]) - new Date(b[0]));
+        merged.forEach(([date, items])=>{
+          const types = items.map(i=>i.type);
+          const combo = (types.includes('Check-in') && types.includes('UX')) ? 'both'
+                        : (types.includes('Deploy') ? (items.some(i => i.date === '2026-01-14') ? 'final-deploy' : 'deploy') : items[0].type.toLowerCase());
+          const label = combo==='both'
+              ? 'Check-in + UX/UI Review'
+              : (combo==='deploy' ? 'Deploy (Mon)' : combo==='final-deploy' ? 'Final Deploy (Mon)' : items[0].type);
+           const details = combo==='both' 
+               ? 'Weekly Review & Feedback'
+               : items.map(i=>`• ${i.title}${i.desc?` — ${i.desc}`:''}`).join('<br>');
+          const eventItem = document.createElement('div');
+          eventItem.className = 'event-item';
+          eventItem.dataset.combo = combo;
+          eventItem.innerHTML = `
+            <div class="event-date">${formatShort(date)}</div>
+            <div class="event-badge">${label}</div>
+            <div class="event-title">Day events</div>
+          `;
+          const desc = document.createElement('div');
+          desc.style.fontSize = '12px';
+          desc.style.color = 'var(--ink-2)';
+          desc.innerHTML = details;
+          eventItem.appendChild(desc);
+          eventsList.appendChild(eventItem);
+        });
+        $phases.appendChild(box);
+      });
+    }
+
+    document.querySelectorAll('.chip[data-phase]').forEach(b=>{
+      b.addEventListener('click',()=>{
+        document.querySelectorAll('.chip[data-phase]').forEach(x=>x.setAttribute('aria-pressed','false'));
+        b.setAttribute('aria-pressed','true');
+        filters.phase = b.dataset.phase;
+        filters.phaseClicked = true;
+        filters.type = null;
+        filters.typeView = null;
+        render();
+      })
+    });
+
+    function closePhaseDetails(){
+      filters.phaseClicked = false; filters.type = null; filters.typeView = null;
+      document.querySelectorAll('.chip[data-phase]').forEach(x=>x.setAttribute('aria-pressed','false'));
+      render();
+    }
+
+    // Tooltip functions
+    const $tooltip = document.getElementById('tooltip');
+    const $tooltipTitle = document.getElementById('tooltipTitle');
+    const $tooltipContent = document.getElementById('tooltipContent');
+
+    // Week definitions
+    const weekDefinitions = [
+        { week: '1-4', start: '2025-11-03', end: '2025-11-26', phase: '2.1',
+          design: ['Design logic rules for 10 formats'],
+          uxui: ['UX/UI Design baseline'],
+          impl: ['PSD export (Save as PSD)', 'Dropshadow']
+        },
+        { week: '5-7', start: '2025-11-27', end: '2025-12-17', phase: '2.2',
+          design: ['Design logic rules for 10 formats', 'Design logic rules for 5 formats'],
+          uxui: ['UX/UI Review #1', 'UX/UI Review #2'],
+          impl: ['Move/Scale layers', 'Vignette controls', 'Implement 20 formats', 'Versioning + Compare']
+        },
+        { week: '8-11', start: '2025-12-18', end: '2026-01-14', phase: '2.3',
+          design: [],
+          uxui: [],
+          impl: ['Implement 5 formats', 'Final testing', 'Last fixes', 'Packaging']
+        }
+    ];
+
+    function getWeekInfo(dateObj){
+      for(let w of weekDefinitions){
+        const ws = new Date(w.start);
+        const we = new Date(w.end);
+        if(dateObj >= ws && dateObj <= we){
+          return w;
+        }
+      }
+      return null;
+    }
+
+    function showTooltip(e, phase){
+      $tooltipTitle.textContent = phase.title;
+      $tooltipContent.innerHTML = phase.goals.map(g => `<li>${g}</li>`).join('');
+      $tooltip.classList.add('visible');
+      updateTooltipPosition(e);
+    }
+
+    function showWeekTooltip(e, weekInfo){
+      $tooltipTitle.textContent = `Week ${weekInfo.week} (Phase ${weekInfo.phase})`;
+      let html = '';
+      if(weekInfo.design.length > 0){
+        html += '<div style="margin-bottom:6px"><strong style="color:#a78bfa">⚙ Design Logic:</strong></div>';
+        html += weekInfo.design.map(t => `<li>${t}</li>`).join('');
+      }
+      if(weekInfo.uxui.length > 0 && weekInfo.uxui[0] !== 'Ongoing'){
+        html += '<div style="margin-bottom:6px;margin-top:8px"><strong style="color:#94a3b8">⟳ UX/UI:</strong></div>';
+        html += weekInfo.uxui.map(t => `<li>${t}</li>`).join('');
+      }
+      if(weekInfo.impl.length > 0){
+        html += '<div style="margin-bottom:6px;margin-top:8px"><strong>▶ Implementation:</strong></div>';
+        html += weekInfo.impl.map(t => `<li>${t}</li>`).join('');
+      }
+      $tooltipContent.innerHTML = html;
+      $tooltip.classList.add('visible');
+      updateTooltipPosition(e);
+    }
+
+    function hideTooltip(){
+      $tooltip.classList.remove('visible');
+    }
+
+    function updateTooltipPosition(e){
+      const x = e.clientX + 15;
+      const y = e.clientY + 15;
+      $tooltip.style.left = x + 'px';
+      $tooltip.style.top = y + 'px';
+    }
+
+    renderBands();
+    renderCalendar();
+    render();
+
+    function renderCalendar(){
+      const eventsByDay = new Map();
+      function mark(iso, kind){
+        const k = iso.substring(0,10);
+        const v = eventsByDay.get(k) || new Set();
+        v.add(kind); eventsByDay.set(k, v);
+      }
+      data.checkins.forEach(x=> mark(x.date,'checkin'));
+      data.uxreviews.forEach(x=> mark(x.date,'ux'));
+      data.deploys.forEach(x=> mark(x.date,'deploy'));
+
+      const ranges = data.phases.map(p=>({id:p.id, s:new Date(p.start), e:new Date(p.end)}))
+                                 .sort((a,b)=>a.s-b.s);
+
+      function inRange(d, r){ return d>=r.s && d<=r.e; }
+      function isFri(d){ return d.getDay()===5; }
+      function addDays(d, n){ const t=new Date(d); t.setDate(t.getDate()+n); return t; }
+      function idToCls(id){ return id==='2.1'?'p21': id==='2.2'?'p22': 'p23'; }
+
+      function phaseClass(d){
+        function pad(n){return String(n).padStart(2,'0');}
+        function ymd(x){ return `${x.getFullYear()}-${pad(x.getMonth()+1)}-${pad(x.getDate())}`; }
+        const k = ymd(d);
+        
+        // Phase 2.1: Nov 3 - Nov 26
+        if(k>='2025-11-03' && k<='2025-11-26') return 'p21';
+        
+        // Phase 2.2: Nov 27 - Dec 17
+        if(k>='2025-11-27' && k<='2025-12-17') return 'p22';
+        
+        // Phase 2.3: Dec 18 - Jan 14
+        if(k>='2025-12-18' && k<='2026-01-14') return 'p23';
+        return '';
+      }
+
+      const monthsWrap = document.createElement('div');
+      monthsWrap.className = 'months';
+      const monthNames = ['January','February','March','April','May','June','July','August','September','October','November','December'];
+      const monthsToShow = [
+        {y: 2025, m: 10},
+        {y: 2025, m: 11},
+        {y: 2026, m: 0}
+      ];
+      
+      monthsToShow.forEach(({y, m}) => {
+        const firstDay = new Date(y,m,1);
+        const lastDay = new Date(y,m+1,0);
+        const month = document.createElement('section');
+        month.className = 'month';
+        month.innerHTML = `<div class="month-hd"><span>${monthNames[m]} ${y}</span></div>`;
+        const grid = document.createElement('div'); grid.className = 'month-grid';
+        const dows = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+        dows.forEach(lbl=>{ const el=document.createElement('div'); el.className='dow'; el.textContent=lbl; grid.appendChild(el); });
+        let offset = (firstDay.getDay() + 6) % 7;
+        const totalCells = offset + lastDay.getDate();
+        for(let i=0;i<totalCells;i++){
+          let cell;
+          if(i < offset){
+            cell = document.createElement('div'); cell.className = 'day muted';
+          }else{
+            const dayNum = i - offset + 1;
+            const dateObj = new Date(y,m,dayNum);
+            const isoKey = `${y}-${String(m+1).padStart(2,'0')}-${String(dayNum).padStart(2,'0')}`;
+            const cls = ['day'];
+            const pc = phaseClass(dateObj); if(pc) cls.push(pc);
+            if(dateObj.getDay()===5) cls.push('friday');
+            
+            // Mark final deployment day (Tue Jan 14, 2026)
+              if(isoKey === '2026-01-14'){
+              cls.push('final-deploy');
+            }
+            
+            cell = document.createElement('div'); cell.className = cls.join(' ');
+            cell.title = dateObj.toDateString();
+            const n = document.createElement('span'); n.className='num'; n.textContent = dayNum; cell.appendChild(n);
+            
+            // Special tooltip for final deployment
+              if(isoKey === '2026-01-14'){
+              cell.addEventListener('mouseenter', (e) => {
+                $tooltipTitle.textContent = '🚀 FINAL DEPLOYMENT';
+                $tooltipContent.innerHTML = `
+                  <li>Complete platform deployment to AWS</li>
+                  <li>All 3 phases integrated</li>
+                  <li>25 formats live</li>
+                  <li>Full feature set available</li>
+                  <li><strong>Project completion</strong></li>
+                `;
+                $tooltip.classList.add('visible');
+                updateTooltipPosition(e);
+              });
+              cell.addEventListener('mousemove', updateTooltipPosition);
+              cell.addEventListener('mouseleave', hideTooltip);
+            }
+            // Add tooltip showing week details for other days
+            else if(pc){
+              const weekInfo = getWeekInfo(dateObj);
+              if(weekInfo){
+                cell.addEventListener('mouseenter', (e) => showWeekTooltip(e, weekInfo));
+                cell.addEventListener('mousemove', updateTooltipPosition);
+                cell.addEventListener('mouseleave', hideTooltip);
+              }
+            }
+            // Special flag for final deployment
+              if(isoKey === '2026-01-14'){
+              const f = document.createElement('span');
+              f.className = 'flag final-deploy';
+              f.title = '🚀 FINAL DEPLOYMENT';
+              cell.appendChild(f);
+            }
+            
+            const ev = eventsByDay.get(isoKey);
+            if(ev){
+              const kinds = Array.from(ev);
+              const f = document.createElement('span');
+              f.className = 'flag';
+              if(kinds.includes('checkin') && kinds.includes('ux')){
+                /* mitad y mitad: izquierda check-in (gris), derecha UX (rosadito) */
+                f.style.background = 'linear-gradient(90deg, var(--ink-3) 0 50%, var(--rose-2) 50% 100%)';
+                f.title = 'Check-in + UX/UI Review';
+              } else if(kinds.includes('deploy')){
+                f.classList.add('deploy');
+                f.title = 'Deploy (Mon)';
+              } else if(kinds.includes('checkin')){
+                f.classList.add('checkin');
+                f.title = 'Check-in';
+              } else {
+                f.style.background = 'var(--rose-2)'; /* solo UX review */
+                f.title = 'UX/UI Review';
+              }
+              cell.appendChild(f);
+            }
+          }
+          grid.appendChild(cell);
+        }
+        month.appendChild(grid);
+        monthsWrap.appendChild(month);
+      });
+
+      $calendar.innerHTML = `
+        <h4>Calendar (Nov 2025 – Jan 2026)</h4>
+        <div style="padding:8px 0;margin-bottom:8px;font-size:12px; color:var(--ink-3); border-bottom:1px solid var(--line)">
+          <strong style="color:var(--ink-2)">Phase colors:</strong>
+          <span style="background:rgba(242,107,107,.4);padding:3px 8px;margin-left:8px;font-weight:600">2.1</span>
+          <span style="background:rgba(56,189,248,.4);padding:3px 8px;margin-left:4px;font-weight:600">2.2</span>
+          <span style="background:rgba(148,163,184,.5);padding:3px 8px;margin-left:4px;font-weight:600">2.3</span>
+          <div style="margin-top:8px; font-size:11px; color:var(--ink-3)">
+            ⟳ Parallel: UI/UX Redesign runs across all phases • Check-ins on Fridays • <strong>Deploys on Mondays</strong><br/>
+            UX/UI review Fridays show a <em>split bar</em> (check-in + <span style="color:var(--rose-2); font-weight:600">UX/UI</span>) → <strong>Nov 28</strong>, <strong>Dec 12</strong>.
+          </div>
+        </div>
+        <div style="display:flex; gap:12px; align-items:center; font-size:12px; color:var(--ink-2); margin-bottom:8px">
+          <div style="display:flex; gap:6px; align-items:center"><span style="width:16px; height:4px; background:var(--ink-3); display:inline-block"></span> Check-in (Fri)</div>
+          <div style="display:flex; gap:6px; align-items:center"><span style="width:16px; height:4px; background:var(--rose-2); display:inline-block"></span> UX/UI Review (Fri)</div>
+          <div style="display:flex; gap:6px; align-items:center"><span style="width:16px; height:4px; background:linear-gradient(90deg,var(--ink-3) 0 50%, var(--rose-2) 50% 100%); display:inline-block"></span> Same-day Check-in + UX/UI</div>
+          <div style="display:flex; gap:6px; align-items:center"><span style="width:16px; height:4px; background:var(--sky-2); display:inline-block"></span> Deploy (Mon)</div>
+        </div>
+      `;
+      $calendar.appendChild(monthsWrap);
+    }
+
+  </script>
+</body>
+</html>
